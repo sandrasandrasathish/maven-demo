@@ -1,41 +1,22 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'MAVEN'
+    }
+
     stages {
-
-        stage('Checkout') {
-            steps {
-                echo "Fetching source code..."
-                checkout scm
-            }
-        }
-
         stage('Build') {
             steps {
-                echo "Building the application without tests..."
-                sh 'mvn clean install -DskipTests'
+                bat 'mvn clean install -DskipTests'
             }
         }
 
         stage('Package') {
             steps {
-                echo "Packaging application..."
-                sh 'mvn package -DskipTests'
+                bat 'mvn package'
             }
-            post {
-                success {
-                    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-                }
-            }
-        }
-    }
-
-    post {
-        success {
-            echo "Build completed successfully."
-        }
-        failure {
-            echo "Build failed."
         }
     }
 }
+
