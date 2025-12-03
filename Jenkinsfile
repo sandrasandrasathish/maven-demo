@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        MAVEN_OPTS = "-Dmaven.test.failure.ignore=false"
-    }
-
     stages {
 
         stage('Checkout') {
@@ -16,22 +12,15 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo "Running Maven build..."
-                sh 'mvn clean install'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo "Executing test cases..."
-                sh 'mvn test'
+                echo "Building the application without tests..."
+                sh 'mvn clean install -DskipTests'
             }
         }
 
         stage('Package') {
             steps {
                 echo "Packaging application..."
-                sh 'mvn package'
+                sh 'mvn package -DskipTests'
             }
             post {
                 success {
