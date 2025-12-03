@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     tools {
+        jdk 'sandra'
         maven 'maven1'
     }
 
@@ -28,7 +29,7 @@ pipeline {
             }
             post {
                 success {
-                    archiveArtifacts artifacts: '/target/*.jar', fingerprint: true
+                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                 }
             }
         }
